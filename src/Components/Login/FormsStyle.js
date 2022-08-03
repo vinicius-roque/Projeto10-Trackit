@@ -31,5 +31,20 @@ const Form = styled.div`
         text-decoration: underline;
         cursor: pointer;
     }
+
+    button {
+        background-color: #52B6FF;
+        color: #FFFFFF;
+        width: 100%;
+        height: 45px;
+        font-size: 20px;
+        border-radius: 5px;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 25px;
+        cursor: pointer;
+    }
 `
 export { Brand, Wrapper, Form };
