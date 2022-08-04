@@ -18,7 +18,7 @@ export default function Login() {
 
     function sendForm(e) {
         e.preventDefault();
-        setLoading(!loading);
+        setLoading(true);
         const request = loginUser(form);
 
         request.then(answer => {
@@ -28,9 +28,7 @@ export default function Login() {
 
         request.catch(answer => {
             alert("Não foi possível fazer login, revise os dados!");
-
-            window.location.reload();
-
+            setLoading(false);
         });
     }
 
@@ -49,7 +47,7 @@ export default function Login() {
                         })
                     }}
                     required
-                    disabled={loading ? true : false}
+                    disabled={loading}
                 />
                 <input 
                     type="password" 
@@ -62,11 +60,11 @@ export default function Login() {
                         })
                     }}
                     required
-                    disabled={loading ? true : false}
+                    disabled={loading}
                 />
                 {loading ?
                     <button><ThreeDots color="#FFFFFF" width={40} height={40} /></button> :
-                    <button onClick={sendForm}>Entrar</button>
+                    <button>Entrar</button>
                 }
                 <p onClick={() => navigate('/cadastro')}>Não tem uma conta? Cadastre-se!</p>
             </Form>

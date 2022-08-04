@@ -24,9 +24,7 @@ export default function Register() {
 
         request.catch(answer => {
             alert("Não foi possível cadastrá-lo, revise os dados!");
-
-            window.location.reload();
-
+            setLoading(false);
         });
     }
 
@@ -45,12 +43,25 @@ export default function Register() {
                         })
                     }}
                     required
-                    disabled={loading ? true : false}
+                    disabled={loading}
                 />
                 <input 
                     type="password"
                     placeholder="senha"
                     name="password"
+                    onChange={(e) => {
+                        holdForm({
+                            name: e.target.name,
+                            value: e.target.value
+                        })
+                    }}
+                    required
+                    disabled={loading}
+                />
+                <input 
+                    type="text"
+                    placeholder="nome"
+                    name="name"
                     onChange={(e) => {
                         holdForm({
                             name: e.target.name,
