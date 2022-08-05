@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import { useContext } from "react";
 import UserContext from "../../Contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function TopBar() {
+    const navigate = useNavigate();
+    const { userData } = useContext(UserContext);
+    
     return (
         <TopWrapper>
-            <h1>TrackIt</h1>
-            <img src={userDara.image} alt="Sponge Bob" />
+            <h1 onClick={() => navigate("/hoje")}>TrackIt</h1>
+            <img src={userData.image} alt="Sponge Bob" />
         </TopWrapper>
     );
 }
