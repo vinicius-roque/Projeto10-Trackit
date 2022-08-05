@@ -54,3 +54,54 @@ const createHabit = styled.div`
     padding: 16px 18px;
     margin-bottom: 30px;
 `
+
+const HabitsWrapper = styled.div`
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 90px;
+    border-radius: 5px;
+    padding: 12px 0 0 15px;
+    margin-bottom: 10px;
+    position: relative;
+
+    ion-icon {
+        color: #666666;
+        font-size: 15px;
+        top: 12px;
+        right: 15px;
+        position: absolute;
+    }
+
+    ion-icon:hover {
+        cursor: pointer;
+    }
+`
+
+const ActionWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    button {
+        background-color: #52B6FF;
+        color: #FFFFFF;
+        width: 85px;
+        height: 35px;
+        font-size: 20px;
+        border-radius: 5px;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    span {
+        color: #52B6FF;
+        font-size: 16px;
+        margin-right: 23px;
+        cursor: pointer;
+    }
+`
+
+export { CreateHabitWrapper, DaysWrapper, createHabit, HabitsWrapper, ActionWrapper }
