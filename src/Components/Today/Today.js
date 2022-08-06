@@ -107,26 +107,25 @@ export default function Today() {
 function HabitDetail({ habits, check, uncheck }) {
     return (
         <>
-            {Object.keys(habits).map(habitIndex => {
+            {Object.keys(habits).map(habitIndex => { 
                 const habit = habits[habitIndex];
                 return (
-                    <li key={habitIndex}>
-                        <HabitsDetails>
-                            <h3>{habit.name}</h3>
-                            <p>Sequência atual: {habit.done ? <Colored green>{habit.currentSequence} dias</Colored> : <Colored>{habit.currentSequence} dias</Colored> }</p>
-                            <p>Seu recorde: {(habit.currentSequence === habit.highestSequence && habit.highestSequence !== 0) ? <Colored green>{habit.highestSequence} dias</Colored> : <Colored>{habit.highestSequence} dias</Colored>}</p>
-                        </HabitsDetails>
-                        {habit.done ?
-                            <HabitsCheckmark green onClick={() => {uncheck(habit.id)}}>
-                                <img src={Checkmark} alt="Checkmark icon" />
-                            </HabitsCheckmark> :
-                            <HabitsCheckmark onClick={() => {check(habit.id)}}>
-                                <img src={Checkmark} alt="Checkmark icon" />
-                            </HabitsCheckmark>
-                        }
-                    </li>
-                )
-            })}
+                <li key={habitIndex}>
+                    <HabitsDetails>
+                        <h3>{habit.name}</h3>
+                        <p>Sequência atual: {habit.done ? <Colored green>{habit.currentSequence} dias</Colored> : <Colored>{habit.currentSequence} dias</Colored> }</p>
+                        <p>Seu recorde: {(habit.currentSequence === habit.highestSequence && habit.highestSequence !== 0) ? <Colored green>{habit.highestSequence} dias</Colored> : <Colored>{habit.highestSequence} dias</Colored>}</p>
+                    </HabitsDetails>
+                    {habit.done ?
+                        <HabitsCheckmark green onClick={() => {uncheck(habit.id)}}>
+                            <img src={Checkmark} alt="checkmark icon" />
+                        </HabitsCheckmark> :
+                        <HabitsCheckmark onClick={() => {check(habit.id)}}>
+                            <img src={Checkmark} alt="checkmark icon" />
+                        </HabitsCheckmark>
+                    }
+                </li>
+            )})}
         </>
     );
 }

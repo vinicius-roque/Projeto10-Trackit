@@ -46,7 +46,7 @@ const DaysWrapper = styled.div`
     }
 `
 
-const createHabit = styled.div`
+const CreateHabit = styled.div`
     background-color: #FFFFFF;
     width: 100%;
     height: 180px;
@@ -104,4 +104,4 @@ const ActionWrapper = styled.div`
     }
 `
 
-export { CreateHabitWrapper, DaysWrapper, createHabit, HabitsWrapper, ActionWrapper }
+export { CreateHabitWrapper, DaysWrapper, CreateHabit, HabitsWrapper, ActionWrapper };
