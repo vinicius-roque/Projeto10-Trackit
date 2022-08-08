@@ -1,7 +1,7 @@
 import TopBar from "../Main/TopBar";
 import Footer from "../Main/Footer";
 import { MainWrapper } from "../Main/styles";
-import { useContext, useState, useEffect, useDebugValue } from "react";
+import { useContext, useState, useEffect } from "react";
 import UserContext from "../../Contexts/UserContext";
 import dayjs from "dayjs";
 import { CreateHabitWrapper, DaysWrapper, CreateHabit, HabitsWrapper, ActionWrapper } from "./styles";
@@ -13,17 +13,16 @@ export default function Habits() {
     const [form, setForm] = useState({
         name: ""
     });
-
-    const { userData, setUserData } = UserContext(UserContext);
-    const [habitDays, setHabitDays] = useState([]);
     const [loading, setLoading] = useState(false);
     const [deleting, setDeleting] = useState(false);
+    const { userData, setUserData } = useContext(UserContext);
+    const [habitDays, setHabitDays] = useState([]);
     const setUp = {
         headers: {
             "Authorization": `Bearer ${userData.token}`
         }
     };
-    const [allHabits, setAllHabits] = useState([]);
+    const [allHabit, setAllHabit] = useState([]);
     const allDays = [
         {
             index: 0,
@@ -36,7 +35,7 @@ export default function Habits() {
         {
             index: 2,
             letter: "T"
-        }, 
+        },
         {
             index: 3,
             letter: "Q"
@@ -52,12 +51,12 @@ export default function Habits() {
         {
             index: 6,
             letter: "S"
-        }
+        },
     ]
 
     useEffect(() => {
         allHabits(setUp).then(answer => {
-            setAllHabits(answer.data);
+            setAllHabit(answer.data);
         });
     }, [loading, deleting]);
 
@@ -75,27 +74,26 @@ export default function Habits() {
             ...form,
             days: habitDays.sort(),
         }
-
+        
         const request = createHabit(body, setUp);
 
         request
         .then(() => {
-            if(habitDays.includes(dayjs().day())) {
+            if (habitDays.includes(dayjs().day())) {
                 setUserData({
                     ...userData,
-                    total: userData.total + 1
+                    total : userData.total + 1,
                 });
             }
-
-            setCreatingHabit(false)
             setLoading(false);
+            setCreatingHabit(false);
             setHabitDays([]);
             setForm({
-                name: ""
+                name: "",
             });
         })
         .catch(() => {
-            alert("Tivemos um problema para criar seu hábito!");
+            alert("Não foi possível criar este hábito");
             setLoading(false);
         });
     }
@@ -111,8 +109,8 @@ export default function Habits() {
                 {creatingHabit ?
                 <CreateHabit>
                     <input
-                        type="text"
-                        placeholder="nome do hábito"
+                        type="text" 
+                        placeholder="nome do hábito" 
                         name="name"
                         onChange={(e) => {
                             holdForm({
@@ -124,12 +122,12 @@ export default function Habits() {
                         required
                         disabled={loading ? true : false}
                     />
-                    <Days allDays={allDays} habitDays={habitDays} setHabitDays={setHabitDays} loading={loading}/>
+                    <Days allDays={allDays} habitDays={habitDays} setHabitDays={setHabitDays} loading={loading} />
                     <ActionWrapper>
                         {loading ?
                             <>
                                 <span style={{opacity: 0.7}}>Cancelar</span>
-                                <button><ThreeDots color="#FFFFFF" width={40} height={40} /></button>
+                                <button><ThreeDots color="#FFFFFF" height={40} width={40} /></button>
                             </> :
                             <>
                                 <span onClick={() => setCreatingHabit(false)}>Cancelar</span>
@@ -138,40 +136,45 @@ export default function Habits() {
                         }
                     </ActionWrapper>
                 </CreateHabit> :
-                "" }
-                { allHabits.length === 0 ?
-                    <p>Você não tem nenhum hábito cadatrado ainda. Adicione um hábito para começar a trackear!</p> :
-                    allHabits.map((habit, index) => <HabitsList key={index} habit={habit} deleting={deleting} setDeleting={setDeleting} allDays={allDays} />)
-                    }
+                ""
+                }
+                { allHabit.length === 0 ?
+                    <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p> :
+                    allHabit.map((habit, index) => <HabitsList key={index} allDays={allDays} habit={habit} deleting={deleting} setDeleting={setDeleting} />)
+                }
+                
             </MainWrapper>
             <Footer />
         </>
-    );
+    )
 }
 
 function Days({ allDays, habitDays, setHabitDays, loading }) {
     function selectHabitDay(dayNumber) {
-        if(loading) {
+        if (loading) {
             return
         }
-        if(habitDays.includes(dayNumber)) {
+
+        if (habitDays.includes(dayNumber)) {
             const newDays = removeItem(habitDays, dayNumber);
             setHabitDays(newDays);
             return
         }
+
         setHabitDays([...habitDays, dayNumber]);
         return
     }
 
-    function removeItem(list, value) {
-        const index = list.indexOf(value);
+    function removeItem(array, value) {
+        const index = array.indexOf(value);
         if (index > -1) {
-            list.splice(index, 1);
+            array.splice(index, 1);
         }
-        return [...list];
+
+        return [...array]
     }
 
-    function renderBoxDay(dayObj) {
+    function renderDayBox(dayObj) {
         if (habitDays === undefined) {
             return <span key={dayObj.index} onClick={() => selectHabitDay(dayObj.index)}>{dayObj.letter}</span>
         }
@@ -181,10 +184,10 @@ function Days({ allDays, habitDays, setHabitDays, loading }) {
     }
 
     return (
-        <DaysWrapper>
-            {allDays.map(day => renderBoxDay(day))}
-        </DaysWrapper>
-    );
+    <DaysWrapper>
+        {allDays.map(day => renderDayBox(day))}
+    </DaysWrapper>
+    )
 }
 
 function HabitsList({ allDays, habit, deleting, setDeleting }) {
@@ -196,12 +199,12 @@ function HabitsList({ allDays, habit, deleting, setDeleting }) {
     };
 
     function deleteItem() {
-        const confirming = window.confirm(`Você quer deletar o hábito ${habit.name}?`);
-        if (confirming) {
-            if(habit.days.includes(dayjs().day())) {
+        const confirmation = window.confirm(`Você quer deletar o hábito ${habit.name}?`);
+        if (confirmation) {
+            if (habit.days.includes(dayjs().day())) {
                 setUserData({
                     ...userData,
-                    total: userData.total - 1
+                    total : userData.total - 1,
                 });
             }
             deleteHabit(habit.id, setUp).then(() => {
@@ -216,24 +219,24 @@ function HabitsList({ allDays, habit, deleting, setDeleting }) {
                 <h3>{habit.name}</h3>
                 <DaysWrapper>
                     {allDays.map(day => {
-                        return <Day key={day.index} habitDays={habit.days} dayObj={day} />
+                        return <Day key={day.index} dayObj={day} habitDays={habit.days} />
                     })}
                 </DaysWrapper>
                 <ion-icon name="trash-outline" onClick={deleteItem}></ion-icon>
             </HabitsWrapper>
         </>
-    );
+    )
 }
 
 function Day({ dayObj, habitDays }) {
-    function renderBoxDay() {
-        if(habitDays.length === 0) {
+    function renderDayBox() {
+        if (habitDays.length === 0) {
             return <span key={dayObj.index}>{dayObj.letter}</span>
         }
         return habitDays.includes(dayObj.index) ?
         <b key={dayObj.index}>{dayObj.letter}</b> :
-        <span key={dayObj.index}>{dayObj.leetter}</span>
+        <span key={dayObj.index}>{dayObj.letter}</span>
     }
 
-    return renderBoxDay();
+    return renderDayBox()
 }

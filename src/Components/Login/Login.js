@@ -6,14 +6,16 @@ import { loginUser } from "../Services/services";
 import { ThreeDots } from "react-loader-spinner";
 
 export default function Login() {
-    const navigate = useNavigate();
-    
     const { setUserData } = useContext(UserContext);
-    const [form, setForm] = useState({});
     const [loading, setLoading] = useState(false);
+    const [form, setForm] = useState({});
+    const navigate = useNavigate();
 
     function holdForm({ name, value }) {
-        setForm({...form, [name]: value});
+        setForm({
+            ...form,
+            [name]: value,
+        });
     }
 
     function sendForm(e) {
@@ -21,13 +23,13 @@ export default function Login() {
         setLoading(true);
         const request = loginUser(form);
 
-        request.then(answer => {
+        request
+        .then(answer => {
             setUserData(answer.data);
             navigate('/hoje');
-        });
-
-        request.catch(answer => {
-            alert("Não foi possível fazer login, revise os dados!");
+        })
+        .catch(() => {
+            alert("Não foi possível fazer login, tente novamente!");
             setLoading(false);
         });
     }
@@ -36,7 +38,7 @@ export default function Login() {
         <Wrapper>
             <Brand />
             <Form onSubmit={sendForm}>
-                <input 
+                <input
                     type="email" 
                     placeholder="email" 
                     name="email"
@@ -48,10 +50,10 @@ export default function Login() {
                     }}
                     required
                     disabled={loading}
-                />
-                <input 
+                 />
+                <input
                     type="password" 
-                    placeholder="senha"
+                    placeholder="senha" 
                     name="password"
                     onChange={(e) => {
                         holdForm({
@@ -61,13 +63,13 @@ export default function Login() {
                     }}
                     required
                     disabled={loading}
-                />
-                {loading ?
-                    <button><ThreeDots color="#FFFFFF" width={40} height={40} /></button> :
+                 />
+                 {loading ?
+                    <button><ThreeDots color="#FFFFFF" height={40} width={40} /></button> :
                     <button>Entrar</button>
-                }
+                 }                
                 <p onClick={() => navigate('/cadastro')}>Não tem uma conta? Cadastre-se!</p>
             </Form>
         </Wrapper>
-    );
+    )
 }

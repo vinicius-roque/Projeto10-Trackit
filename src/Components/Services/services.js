@@ -2,7 +2,7 @@ import axios from "axios";
 
 const APIpath = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit";
 
-function registerUser (body) {
+function registerUser(body) {
     return axios.post(`${APIpath}/auth/sign-up`, body);
 }
 

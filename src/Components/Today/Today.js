@@ -2,15 +2,15 @@ import { useContext, useEffect, useState } from "react";
 import UserContext from "../../Contexts/UserContext";
 import { checkHabit, todayHabits, uncheckHabit } from "../Services/services";
 import dayjs from "dayjs";
-import Checkmark from "../Main/assets/Checkmark.png";
+import checkmark from "../Main/assets/Checkmark.png";
 import { MainWrapper } from "../Main/styles"
 import TopBar from "../Main/TopBar";
 import Footer from "../Main/Footer";
 import { DayWrapper, ListWrapper, HabitsDetails, HabitsCheckmark, Colored } from "./styles";
 
 export default function Today() {
-    const {userData, setUserData} = useContext(UserContext);
     const [habits, setHabits] = useState([]);
+    const { userData, setUserData } = useContext(UserContext);
     const setUp = {
         headers: {
             "Authorization": `Bearer ${userData.token}`
@@ -21,38 +21,38 @@ export default function Today() {
         todayHabits(setUp).then(answer => {
             setHabits({...answer.data});
             setUserData({
-                ...userData, 
+                ...userData,
                 completed : answer.data.filter(habit => habit.done).length,
                 total : answer.data.length,
             });
         });
     }, [habits]);
-    
+
     function translateDay(dayNumber) {
-        let conversion;
+        let converting;
         switch (dayNumber) {
-            case 0: 
-                conversion = "Domingo";
+            case 0:
+                converting = "Domingo";
                 break;
-            case 1: 
-                conversion = "Segunda";
+            case 1:
+                converting = "Segunda";
                 break;
-            case 2: 
-                conversion = "Terça";
+            case 2:
+                converting = "Terça";
                 break;
-            case 3: 
-                conversion = "Quarta";
+            case 3:
+                converting = "Quarta";
                 break;
-            case 4: 
-                conversion = "Quinta";
+            case 4:
+                converting = "Quinta";
                 break;
-            case 5: 
-                conversion = "Sexta";
+            case 5:
+                converting = "Sexta";
                 break;
-            default: 
-                conversion = "Sábado";
+            default:
+                converting = "Sábado"
         }
-        return conversion;
+        return converting
     }
 
     function check(habitId) {
@@ -64,7 +64,7 @@ export default function Today() {
             });
             setHabits({...habits});
         })
-        .catch((error) => console.log(error)); 
+        .catch((error) => console.log(error));
     }
 
     function uncheck(habitId) {
@@ -76,15 +76,15 @@ export default function Today() {
             });
             setHabits({...habits});
         })
-        .catch((error) => console.log(error)); 
+        .catch((error) => console.log(error));
     }
-
+    
     return (
         <>
             <TopBar />
             <MainWrapper>
                 <DayWrapper>
-                    <h2>{translateDay(dayjs().day())}, {dayjs().date()/dayjs().month()+1}</h2>
+                    <h2>{translateDay(dayjs().day())}, {dayjs().date()}/{dayjs().month()+1}</h2>
                     {
                         userData.completed > 0 ?
                         <span>{(userData.completed/userData.total*100).toFixed(0)}% dos hábitos concluídos</span> :
@@ -95,13 +95,13 @@ export default function Today() {
                     {
                         habits.length === 0 ?
                         "" :
-                        <HabitDetail habit={habits} check={check} uncheck={uncheck} />
+                        <HabitDetail habits={habits} check={check} uncheck={uncheck} />
                     }
                 </ListWrapper>
             </MainWrapper>
             <Footer />
         </>
-    );
+    )
 }
 
 function HabitDetail({ habits, check, uncheck }) {
@@ -118,14 +118,14 @@ function HabitDetail({ habits, check, uncheck }) {
                     </HabitsDetails>
                     {habit.done ?
                         <HabitsCheckmark green onClick={() => {uncheck(habit.id)}}>
-                            <img src={Checkmark} alt="checkmark icon" />
+                            <img src={checkmark} alt="checkmark icon" />
                         </HabitsCheckmark> :
                         <HabitsCheckmark onClick={() => {check(habit.id)}}>
-                            <img src={Checkmark} alt="checkmark icon" />
+                            <img src={checkmark} alt="checkmark icon" />
                         </HabitsCheckmark>
-                    }
+                     }
                 </li>
             )})}
         </>
-    );
+    )
 }

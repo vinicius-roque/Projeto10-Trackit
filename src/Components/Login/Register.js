@@ -5,12 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 
 export default function Register() {
-    const navigate = useNavigate();
     const [form, setForm] = useState({});
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     function holdForm({ name, value }) {
-        setForm({...form, [name]: value,});
+        setForm({
+            ...form,
+            [name]: value,
+        });
     }
 
     function sendForm(e) {
@@ -18,12 +21,12 @@ export default function Register() {
         setLoading(!loading);
         const request = registerUser(form)
 
-        request.then(answer => {
+        request
+        .then(answer => {
             navigate('/');
-        });
-
-        request.catch(answer => {
-            alert("Não foi possível cadastrá-lo, revise os dados!");
+        })
+        .catch(() => {
+            alert("O não foi possível fazer o cadastro, tente novamente!");
             setLoading(false);
         });
     }
@@ -32,9 +35,9 @@ export default function Register() {
         <Wrapper>
             <Brand />
             <Form onSubmit={sendForm}>
-                <input 
+                <input
                     type="email" 
-                    placeholder="email"
+                    placeholder="email" 
                     name="email"
                     onChange={(e) => {
                         holdForm({
@@ -44,10 +47,10 @@ export default function Register() {
                     }}
                     required
                     disabled={loading}
-                />
-                <input 
-                    type="password"
-                    placeholder="senha"
+                 />
+                <input
+                    type="password" 
+                    placeholder="senha" 
                     name="password"
                     onChange={(e) => {
                         holdForm({
@@ -57,10 +60,10 @@ export default function Register() {
                     }}
                     required
                     disabled={loading}
-                />
-                <input 
-                    type="text"
-                    placeholder="nome"
+                 />
+                <input
+                    type="text" 
+                    placeholder="nome" 
                     name="name"
                     onChange={(e) => {
                         holdForm({
@@ -70,10 +73,10 @@ export default function Register() {
                     }}
                     required
                     disabled={loading ? true : false}
-                />
-                <input 
+                 />
+                <input
                     type="url" 
-                    placeholder="foto"
+                    placeholder="foto" 
                     name="image"
                     onChange={(e) => {
                         holdForm({
@@ -83,13 +86,13 @@ export default function Register() {
                     }}
                     required
                     disabled={loading ? true : false}
-                />
-                {loading ?
-                    <button><ThreeDots color="#FFFFFF" width={40} height={40} /></button> :
-                    <button onClick={sendForm}>Cadastrar</button> 
-                }
-                <p onClick={() => navigate('/')}>Já tem uma conta? Faça login</p>
+                 />
+                 {loading ?
+                    <button><ThreeDots color="#FFFFFF" height={40} width={40} /></button> :
+                    <button onClick={sendForm}>Cadastrar</button>
+                 }
+                <p onClick={() => navigate('/')}>Já tem uma conta? Faça login!</p>
             </Form>
         </Wrapper>
-    );
+    )
 }

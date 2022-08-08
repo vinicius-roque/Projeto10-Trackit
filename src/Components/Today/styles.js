@@ -35,7 +35,7 @@ const ListWrapper = styled.ul`
 `
 
 const HabitsCheckmark = styled.div`
-    background-color: ${props => props.green ? "#8FC549" : "#EBEBEBE"};
+    background-color: ${props => props.green ? "#8FC549" : "#EBEBEB"};
     width: 69px;
     height: 69px;
     border: ${props => props.green ? "" : "1px solid #E7E7E7;"};

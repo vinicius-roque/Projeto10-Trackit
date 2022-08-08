@@ -11,7 +11,7 @@ export default function Historic() {
                 <CreateHabitWrapper>
                     <h2>Histórico</h2>
                 </CreateHabitWrapper>
-                <p>Em breve você poderá ver o seu histórico dos seus hábitos aqui</p>
+                <p>Em breve você poderá ver o seu histórico dos seus hábitos aqui!</p>
             </MainWrapper>
             <Footer />
         </>

@@ -9,7 +9,7 @@ import Historic from "../Historic/Historic";
 import UserContext from "../../Contexts/UserContext";
 
 export default function App() {
-    const [userData, setUserData] = useState("");
+	const [userData, setUserData] = useState("");
 
     return (
         <>
@@ -17,14 +17,14 @@ export default function App() {
             <UserContext.Provider value={{userData, setUserData}}>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={<Login />} />
-                        <Route path="/cadastro" element={<Register />} />
-                        <Route path="/habitos" element={<Habits />} />
-                        <Route path="/hoje" element={<Today />} />
-                        <Route path="/historico" element={<Historic />} />
+                            <Route path="/" element={<Login />} />
+                            <Route path="/cadastro" element={<Register />} />
+                            <Route path="/habitos" element={<Habits />} />
+                            <Route path="/hoje" element={<Today />} />
+                            <Route path="/historico" element={<Historic />} />
                     </Routes>
                 </BrowserRouter>
             </UserContext.Provider>
         </>
-    );
+    )
 }
